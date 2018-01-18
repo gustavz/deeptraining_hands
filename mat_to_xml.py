@@ -23,12 +23,12 @@ def get_img_size_node(img_path):
     img = cv2.imread(img_path)
     img_size = img.shape
     size_node = et.Element('size')
-    
+
     width_node = et.Element('width')
     width_node.text = str(img_size[0])
 
     size_node.append(width_node)
-    
+
     height_node = et.Element('height')
     height_node.text = str(img_size[1])
     size_node.append(height_node)
@@ -41,13 +41,13 @@ def get_img_size_node(img_path):
 
 
 def get_object_node(hand):
-    
+
     hand_node = et.Element('object')
 
     name_node = et.Element('name')
     name_node.text = 'hand'
     hand_node.append(name_node)
-    
+
     pose_node = et.Element('pose')
     pose_node.text = 'Unspecified'
     hand_node.append(pose_node)
@@ -89,8 +89,8 @@ def read_mat_file(filepath, filename,IMG_FILES_PATH, XML_FILES_PATH):
 
     #For all hands in the image align the bounding box to an axis
     for i in range(len(mat_data['boxes'][0])):
-        xmin = float('inf')  
-        ymin = float('inf') 
+        xmin = float('inf')
+        ymin = float('inf')
         xmax = -1
         ymax = -1
 
@@ -106,7 +106,7 @@ def read_mat_file(filepath, filename,IMG_FILES_PATH, XML_FILES_PATH):
                 ymax = y
 
         hand_pos.insert(0, [xmin, ymin, xmax, ymax])
-    
+
     # Create the XML file
     create_xml_file(hand_pos, filename,IMG_FILES_PATH, XML_FILES_PATH)
 
@@ -148,13 +148,13 @@ def create_xml_file(hand_pos, filename,IMG_FILES_PATH, XML_FILES_PATH):
     for hand in hand_pos:
         hand_node = get_object_node(hand)
         root.append(hand_node)
-    
+
     rough_xml = et.tostring(root, 'utf-8')
     rough_xml = minidom.parseString(rough_xml)
     pretty_xml = rough_xml.toprettyxml()
     #print(pretty_xml)
 
-    # Save the XML file 
+    # Save the XML file
     xml_path = join(XML_FILES_PATH, xml_filename)
     with open(xml_path, 'w') as xml_file:
         xml_file.write(pretty_xml)
@@ -164,10 +164,13 @@ def main():
     # Read a .mat file and convert it to a pascal format
     for directory in ['train','eval']:
 
+        if not os.path.exists('data/{}/annotations/xml'.format(directory)):
+            os.makedirs('data/{}/annotations/xml'.format(directory))
+
         MAT_FILES_PATH = os.path.join(os.getcwd(), 'data/{}/annotations/mat'.format(directory))
         XML_FILES_PATH = os.path.join(os.getcwd(), 'data/{}/annotations/xml'.format(directory))
         IMG_FILES_PATH = os.path.join(os.getcwd(), 'data/{}/images'.format(directory))
-        
+
         # List all files in the MAT_FILES_PATH and ignore hidden files (.DS_STORE for Macs)
         mat_files = [[join(MAT_FILES_PATH, x), x] for x in os.listdir(MAT_FILES_PATH) if isfile(join(MAT_FILES_PATH, x)) and x[0] is not '.']
         # Iterate through all files and convert them to XML
