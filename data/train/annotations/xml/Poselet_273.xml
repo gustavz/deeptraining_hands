@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>Poselet_273.jpg</filename>
+	<path>Poselet_273.jpg</path>
+	<size>
+		<width>500</width>
+		<height>333</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>274</xmin>
+			<ymin>165</ymin>
+			<xmax>303</xmax>
+			<ymax>183</ymax>
+		</bndbox>
+	</object>
+</annotation>

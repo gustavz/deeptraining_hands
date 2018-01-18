@@ -1,0 +1,36 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>Buffy_217.jpg</filename>
+	<path>Buffy_217.jpg</path>
+	<size>
+		<width>584</width>
+		<height>486</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>304</xmin>
+			<ymin>220</ymin>
+			<xmax>351</xmax>
+			<ymax>274</ymax>
+		</bndbox>
+	</object>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>304</xmin>
+			<ymin>174</ymin>
+			<xmax>351</xmax>
+			<ymax>225</ymax>
+		</bndbox>
+	</object>
+</annotation>

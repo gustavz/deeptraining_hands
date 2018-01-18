@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>VOC2010_88.jpg</filename>
+	<path>VOC2010_88.jpg</path>
+	<size>
+		<width>458</width>
+		<height>500</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>352</xmin>
+			<ymin>337</ymin>
+			<xmax>365</xmax>
+			<ymax>351</ymax>
+		</bndbox>
+	</object>
+</annotation>

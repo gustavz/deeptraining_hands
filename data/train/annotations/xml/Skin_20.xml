@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>Skin_20.jpg</filename>
+	<path>Skin_20.jpg</path>
+	<size>
+		<width>355</width>
+		<height>561</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>234</xmin>
+			<ymin>259</ymin>
+			<xmax>294</xmax>
+			<ymax>334</ymax>
+		</bndbox>
+	</object>
+</annotation>

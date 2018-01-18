@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>Movie_apollo13_13.jpg</filename>
+	<path>Movie_apollo13_13.jpg</path>
+	<size>
+		<width>390</width>
+		<height>720</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>279</xmin>
+			<ymin>242</ymin>
+			<xmax>319</xmax>
+			<ymax>274</ymax>
+		</bndbox>
+	</object>
+</annotation>

@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>Inria_23.jpg</filename>
+	<path>Inria_23.jpg</path>
+	<size>
+		<width>756</width>
+		<height>562</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>482</xmin>
+			<ymin>314</ymin>
+			<xmax>562</xmax>
+			<ymax>378</ymax>
+		</bndbox>
+	</object>
+</annotation>

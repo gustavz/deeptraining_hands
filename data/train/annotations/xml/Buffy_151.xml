@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>Buffy_151.jpg</filename>
+	<path>Buffy_151.jpg</path>
+	<size>
+		<width>593</width>
+		<height>611</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>104</xmin>
+			<ymin>338</ymin>
+			<xmax>161</xmax>
+			<ymax>392</ymax>
+		</bndbox>
+	</object>
+</annotation>

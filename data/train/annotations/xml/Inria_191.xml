@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>Inria_191.jpg</filename>
+	<path>Inria_191.jpg</path>
+	<size>
+		<width>960</width>
+		<height>1050</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>480</xmin>
+			<ymin>622</ymin>
+			<xmax>510</xmax>
+			<ymax>654</ymax>
+		</bndbox>
+	</object>
+</annotation>

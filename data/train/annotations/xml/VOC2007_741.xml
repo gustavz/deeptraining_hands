@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>VOC2007_741.jpg</filename>
+	<path>VOC2007_741.jpg</path>
+	<size>
+		<width>420</width>
+		<height>304</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>-7</xmin>
+			<ymin>29</ymin>
+			<xmax>235</xmax>
+			<ymax>209</ymax>
+		</bndbox>
+	</object>
+</annotation>

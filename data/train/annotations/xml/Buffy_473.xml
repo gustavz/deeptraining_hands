@@ -1,0 +1,24 @@
+<?xml version="1.0" ?>
+<annotation>
+	<folder>imgs/</folder>
+	<filename>Buffy_473.jpg</filename>
+	<path>Buffy_473.jpg</path>
+	<size>
+		<width>805</width>
+		<height>736</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+	<object>
+		<name>hand</name>
+		<pose>Unspecified</pose>
+		<truncated>0</truncated>
+		<difficult>0</difficult>
+		<bndbox>
+			<xmin>406</xmin>
+			<ymin>521</ymin>
+			<xmax>479</xmax>
+			<ymax>572</ymax>
+		</bndbox>
+	</object>
+</annotation>
