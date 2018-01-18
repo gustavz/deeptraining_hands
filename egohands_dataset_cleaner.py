@@ -141,7 +141,6 @@ def generate_label_files(image_dir):
             save_csv(image_dir + dir + "_labels.csv", csvholder)
             print("Saved label csv for ", dir, image_dir +
                   dir + "/" + dir + "_labels.csv")
-            final_finish()
 
 
 # Split data, copy to train/test folders
@@ -210,12 +209,12 @@ def rename_files(image_dir):
 
 
 def download_egohands_dataset(dataset_url, dataset_path):
-    print("THIS CODE IS TAKEN FROM VICTOR DIBIA WHO ALSO WORKED ON THE SAME TOPIC\n \
-    UNFORTUNATELY 2 MONTHS BEFORE I HAD THE IDEA ;)\n \
-    BUT THIS PEACE OF CODE HERE IS PERFECT SO HANDS DOWN\n \
-    ALL I DID WAS ALTERING IT A BIT TO MY NEEDS\n\n \
-    SEE HIS REPO:\n \
-    https://github.com/victordibia/handtracking")
+    print("\nTHIS CODE IS TAKEN FROM VICTOR DIBIA WHO ALSO WORKED ON THE SAME TOPIC\n\
+UNFORTUNATELY 2 MONTHS BEFORE I HAD THE IDEA ;)\n\
+BUT THIS PEACE OF CODE HERE IS PERFECT SO HANDS DOWN\n\
+ALL I DID WAS ALTERING IT A BIT TO MY NEEDS\n\n\
+SEE HIS REPO:\n\
+https://github.com/victordibia/handtracking\n")
     is_downloaded = os.path.exists(dataset_path)
     if not is_downloaded:
         print(
@@ -223,6 +222,7 @@ def download_egohands_dataset(dataset_url, dataset_path):
         opener = urllib.request.URLopener()
         opener.retrieve(dataset_url, dataset_path)
         print("> download complete")
+        print("> run egohands_dataset_cleaner.py again")
 
     else:
         print("Egohands dataset already downloaded.\nGenerating CSV files")
@@ -238,9 +238,13 @@ def download_egohands_dataset(dataset_url, dataset_path):
 def final_finish():
     sh.rmtree('egohands')
     os.remove(EGO_HANDS_FILE)
+    print('> creating the dataset complete\n\
+          > you can now start training\n\
+          > see howto_wiki for more information')
 
 EGOHANDS_DATASET_URL = "http://vision.soic.indiana.edu/egohands_files/egohands_data.zip"
 EGO_HANDS_FILE = "egohands_data.zip"
 
 
 download_egohands_dataset(EGOHANDS_DATASET_URL, EGO_HANDS_FILE)
+final_finish()
