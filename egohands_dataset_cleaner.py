@@ -236,6 +236,10 @@ https://github.com/victordibia/handtracking\n")
             rename_files("egohands/_LABELLED_SAMPLES/")
 
 def final_finish():
+    f = open("data/label_map.pbtxt","w") 
+    f.write("item {\n  id: 1\n  name: 'hand'\n}")
+    f.close()
+    
     sh.rmtree('egohands')
     os.remove(EGO_HANDS_FILE)
     print('> creating the dataset complete\n\

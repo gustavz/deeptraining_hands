@@ -71,7 +71,7 @@ def create_tf_example(group, path, label_map_dict):
 def main():
     for directory in ['train','eval']:
         
-        image_path = os.path.join(os.getcwd(), 'data/{}/images'.format(directory))
+        image_path = os.path.join(os.getcwd(), 'data/{}'.format(directory))
         csv_path = os.path.join(os.getcwd(), 'data/{}_labels.csv'.format(directory,directory))
         output_path = os.path.join(os.getcwd(), 'data/{}.record'.format(directory))
         label_map_dict = label_map_util.get_label_map_dict(os.path.join(os.getcwd(), 'data/label_map.pbtxt'))

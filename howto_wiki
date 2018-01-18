@@ -10,8 +10,8 @@ export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 # From the tensorflow/models/research directory
 python object_detection/train.py \
     --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/training_hands/model/ssd_mobilehandsnet.config \
-    --train_dir=/home/gustav/workspace/training_hands/model/train
+    --pipeline_config_path=/home/nvidia/workspace/deeptraining_hands/model/ssd_mobilehandsnet.config \
+    --train_dir=/home/nvidia/workspace/deeptraining_hands/model/train
 
 ## EVALUATION
 # From the tensorflow/models/research directory
@@ -58,8 +58,8 @@ Train on a single GPU and eval on CPU, In object_detection/trainer.py
 add after "session_config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)" :
 
 session_config.gpu_options.allow_growth = True
-session_config.gpu_options.per_process_gpu_memory_fraction = 0.8 #optional
-session_config.gpu_options.allocator_type ='BFC' # optional
+session_config.gpu_options.per_process_gpu_memory_fraction = 0.9
+session_config.gpu_options.allocator_type ='BFC'
 
 For Evaluation Using only CPU: In object_detection/eval.py add behind "FLAGS = flags.FLAG" :
 
