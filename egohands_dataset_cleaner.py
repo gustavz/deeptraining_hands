@@ -1,6 +1,10 @@
 """
-THIS CODE IS TAKEN FROM VICTOR DIBIA WHO ALSO WORKED ON THIS TOPIC
+THIS CODE IS TAKEN FROM VICTOR DIBIA WHO ALSO WORKED ON THE SAME TOPIC
 UNFORTUNATELY 2 MONTHS BEFORE I HAD THE IDEA ;)
+BUT THIS PEACE OF CODE HERE IS PERFECT SO HANDS DOWN
+ALL I DID WAS ALTERING IT A BIT TO MY NEEDS
+
+SEE HIS REPO:
 https://github.com/victordibia/handtracking
 """
 import scipy.io as sio
@@ -134,16 +138,17 @@ def generate_label_files(image_dir):
                         csvholder.append(row)
                     csv_file.close()
                     os.remove(image_dir + dir + "/" + f)
-            save_csv(image_dir + dir + "/" + dir + "_labels.csv", csvholder)
+            save_csv(image_dir + dir + "_labels.csv", csvholder)
             print("Saved label csv for ", dir, image_dir +
                   dir + "/" + dir + "_labels.csv")
+            final_finish()
 
 
 # Split data, copy to train/test folders
 def split_data_test_eval_train(image_dir):
-    create_directory("images")
-    create_directory("images/train")
-    create_directory("images/test")
+    create_directory("data")
+    create_directory("data/train")
+    create_directory("data/eval")
 
     data_size = 4000
     loop_index = 0
@@ -159,21 +164,21 @@ def split_data_test_eval_train(image_dir):
 
                     if loop_index in test_samp_array:
                         os.rename(image_dir + dir +
-                                  "/" + f, "images/test/" + f)
+                                  "/" + f, "data/eval/" + f)
                         os.rename(image_dir + dir +
-                                  "/" + f.split(".")[0] + ".csv", "images/test/" + f.split(".")[0] + ".csv")
+                                  "/" + f.split(".")[0] + ".csv", "data/eval/" + f.split(".")[0] + ".csv")
                     else:
                         os.rename(image_dir + dir +
-                                  "/" + f, "images/train/" + f)
+                                  "/" + f, "data/train/" + f)
                         os.rename(image_dir + dir +
-                                  "/" + f.split(".")[0] + ".csv", "images/train/" + f.split(".")[0] + ".csv")
+                                  "/" + f.split(".")[0] + ".csv", "data/train/" + f.split(".")[0] + ".csv")
                     print(loop_index, image_dir + f)
             print(">   done scanning director ", dir)
             os.remove(image_dir + dir + "/polygons.mat")
             os.rmdir(image_dir + dir)
 
-        print("Train/test content generation complete!")
-        generate_label_files("images/")
+        print("Train/Eval content generation complete!")
+        generate_label_files("data/")
 
 
 def generate_csv_files(image_dir):
@@ -181,7 +186,7 @@ def generate_csv_files(image_dir):
         for dir in dirs:
             get_bbox_visualize(image_dir, dir)
 
-    print("CSV generation complete!\nGenerating train/test/eval folders")
+    print("CSV generation complete!\nGenerating train/eval folders")
     split_data_test_eval_train("egohands/_LABELLED_SAMPLES/")
 
 
@@ -205,6 +210,12 @@ def rename_files(image_dir):
 
 
 def download_egohands_dataset(dataset_url, dataset_path):
+    print("THIS CODE IS TAKEN FROM VICTOR DIBIA WHO ALSO WORKED ON THE SAME TOPIC\n \
+    UNFORTUNATELY 2 MONTHS BEFORE I HAD THE IDEA ;)\n \
+    BUT THIS PEACE OF CODE HERE IS PERFECT SO HANDS DOWN\n \
+    ALL I DID WAS ALTERING IT A BIT TO MY NEEDS\n\n \
+    SEE HIS REPO:\n \
+    https://github.com/victordibia/handtracking")
     is_downloaded = os.path.exists(dataset_path)
     if not is_downloaded:
         print(
@@ -224,6 +235,9 @@ def download_egohands_dataset(dataset_url, dataset_path):
             zip_ref.close()
             rename_files("egohands/_LABELLED_SAMPLES/")
 
+def final_finish():
+    sh.rmtree('egohands')
+    os.remove(EGO_HANDS_FILE)
 
 EGOHANDS_DATASET_URL = "http://vision.soic.indiana.edu/egohands_files/egohands_data.zip"
 EGO_HANDS_FILE = "egohands_data.zip"
