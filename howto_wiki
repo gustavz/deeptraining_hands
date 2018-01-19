@@ -7,30 +7,38 @@ protoc object_detection/protos/*.proto --python_out=.
 export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 
 ## TRAINING
+# Always reboot before new training
 # From the tensorflow/models/research directory
 python object_detection/train.py \
     --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/training_hands/model/ssd_mobilehandsnet.config \
-    --train_dir=/home/gustav/workspace/training_hands/model/train
+    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet.config \
+    --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
 
 ## EVALUATION
 # From the tensorflow/models/research directory
 python object_detection/eval.py \
     --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/training_hands/model/ssd_mobilehandsnet.config \
-    --checkpoint_dir=/home/gustav/workspace/training_hands/model/train \
-    --eval_dir=/home/gustav/workspace/training_hands/model/eval
+    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet.config \
+    --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
+    --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
 
 ## TENSORBOARD
-tensorboard --logdir=/home/gustav/workspace/training_hands/model
+tensorboard --logdir=/home/gustav/workspace/deeptraining_hands/model
 
 ## EXPORT MODEL
 # From the tensorflow/models/research/object_detection directory
 python export_inference_graph.py \
 --input_type=image_tensor \
---pipeline_config_path=/home/gustav/workspace/training_hands/model/ssd_mobilehandsnet.config \
---trained_checkpoint_prefix /home/gustav/workspace/training_hands/model/train/model.ckpt-4970 \
---output_directory=/home/gustav/workspace/training_hands/model/frozen_model
+--pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet.config \
+--trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-50000 \
+--output_directory=/home/gustav/workspace/deeptraining_hands/model/frozen_model
+
+## CREATE TF RECORDS DEFAULT
+python object_detection/dataset_tools/create_oid_tf_record.py \
+--input_annotations_csv=/home/gustav/workspace/deeptraining_hands/data/train_labels.csv \
+--input_images_directory=/home/gustav/workspace/deeptraining_hands/data/train \
+--input_label_map=/home/gustav/workspace/deeptraining_hands/data/label_map.pbtxt \
+--output_tf_record_path_prefix=/home/gustav/workspace/deeptraining_hands/data/train.tfrecord
 
 
 #### Options for the model.config file #### 

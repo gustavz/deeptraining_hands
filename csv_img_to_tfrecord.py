@@ -33,6 +33,7 @@ def create_tf_example(group, path, label_map_dict):
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = Image.open(encoded_jpg_io)
     width, height = image.size
+    print("width,height: ",width,height)
 
     filename = group.filename.encode('utf8')
     image_format = b'jpg'
@@ -50,7 +51,7 @@ def create_tf_example(group, path, label_map_dict):
         ymaxs.append(obj['ymax'] / height)
         classes_text.append(obj['class'].encode('utf8'))
         classes.append(label_map_dict[obj['class']])
-
+    print ("xmins,xmaxs,ymins,ymaxs,classes_text,classes: ",xmins,xmaxs,ymins,ymaxs,classes_text,classes)
     tf_example = tf.train.Example(features=tf.train.Features(feature={
         'image/height': dataset_util.int64_feature(height),
         'image/width': dataset_util.int64_feature(width),
@@ -65,24 +66,25 @@ def create_tf_example(group, path, label_map_dict):
         'image/object/class/text': dataset_util.bytes_list_feature(classes_text),
         'image/object/class/label': dataset_util.int64_list_feature(classes),
     }))
+    print ("tf_example: ",tf_example)
     return tf_example
 
 
 def main():
     for directory in ['train','eval']:
-        
-        image_path = os.path.join(os.getcwd(), 'data/{}/images'.format(directory))
+
+        image_path = os.path.join(os.getcwd(), 'data/{}'.format(directory))
         csv_path = os.path.join(os.getcwd(), 'data/{}_labels.csv'.format(directory,directory))
         output_path = os.path.join(os.getcwd(), 'data/{}.record'.format(directory))
         label_map_dict = label_map_util.get_label_map_dict(os.path.join(os.getcwd(), 'data/label_map.pbtxt'))
-        
+
         writer = tf.python_io.TFRecordWriter(output_path)
         examples = pd.read_csv(csv_path)
         grouped = split(examples, 'filename')
         for group in grouped:
             tf_example = create_tf_example(group, image_path, label_map_dict)
             writer.write(tf_example.SerializeToString())
-    
+
         writer.close()
         print('Successfully created the {}-TFRecords'.format(directory))
 
