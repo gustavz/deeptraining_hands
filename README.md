@@ -18,6 +18,8 @@ All scripts create/support following folder structure:
 |   ├── train_labels.csv
 |   ├── eval_labels.csv
 |   ├── label_map.pbtxt
+|   ├── train.record
+|   ├── eval.record
 │   └── train 
 |       ├── annotations
 |           ├── mat
