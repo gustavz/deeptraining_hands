@@ -87,10 +87,9 @@ def main():
     CWD = os.getcwd()
     
     for directory in ['train','eval']:
-        
         txt_path = 'data/{}/annotations/txt'.format(directory)
         csv_path = 'data/{}_labels.csv'.format(directory)
-        img_path = CWD + '/data/{}/'.format(directory)
+        img_path = CWD + '/data/{}/images/'.format(directory)
         
         if not os.path.exists(txt_path):
             os.makedirs(txt_path)

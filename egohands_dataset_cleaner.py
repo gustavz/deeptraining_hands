@@ -241,6 +241,14 @@ def final_finish():
     f = open("data/label_map.pbtxt","w")
     f.write("item {\n  id: 1\n  name: 'hand'\n}")
     f.close()
+    cwd = os.getcwd()
+    for directory in ['train','eval']:
+        src_dir = cwd+'/data/{}'.format(directory)
+        drc_dir = cwd+'/data/{}/images'.format(directory)
+        create_directory(drc_dir)
+        for file in os.listdir(src_dir):
+            if file.endswith(".jpg"):
+               sh.move(src_dir+'/'+file,drc_dir+'/'+file)
 
     sh.rmtree('egohands')
     #os.remove(EGO_HANDS_FILE)
