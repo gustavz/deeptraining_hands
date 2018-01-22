@@ -212,9 +212,10 @@ def download_egohands_dataset(dataset_url, dataset_path):
     print("\nTHIS CODE IS TAKEN FROM VICTOR DIBIA WHO ALSO WORKED ON THE SAME TOPIC\n\
 UNFORTUNATELY 2 MONTHS BEFORE I HAD THE IDEA ;)\n\
 BUT THIS PEACE OF CODE HERE IS PERFECT SO HANDS DOWN\n\
-ALL I DID WAS ALTERING IT A BIT TO MY NEEDS\n\n\
+ALL I DID WAS MODIFYING IT TO MY NEEDS\n\n\
 SEE HIS REPO:\n\
 https://github.com/victordibia/handtracking\n")
+
     is_downloaded = os.path.exists(dataset_path)
     if not is_downloaded:
         print(
@@ -234,21 +235,21 @@ https://github.com/victordibia/handtracking\n")
             print("> Extraction complete")
             zip_ref.close()
             rename_files("egohands/_LABELLED_SAMPLES/")
+            final_finish()
 
 def final_finish():
-    f = open("data/label_map.pbtxt","w") 
+    f = open("data/label_map.pbtxt","w")
     f.write("item {\n  id: 1\n  name: 'hand'\n}")
     f.close()
-    
+
     sh.rmtree('egohands')
-    os.remove(EGO_HANDS_FILE)
-    print('> creating the dataset complete\n\
-          > you can now start training\n\
-          > see howto_wiki for more information')
+    #os.remove(EGO_HANDS_FILE)
+    print('\n> creating the dataset complete\n\
+    > you can now start training\n\
+    > see howto_wiki for more information')
 
 EGOHANDS_DATASET_URL = "http://vision.soic.indiana.edu/egohands_files/egohands_data.zip"
 EGO_HANDS_FILE = "egohands_data.zip"
 
 
 download_egohands_dataset(EGOHANDS_DATASET_URL, EGO_HANDS_FILE)
-final_finish()

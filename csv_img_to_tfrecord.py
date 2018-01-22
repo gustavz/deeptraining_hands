@@ -10,8 +10,6 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import absolute_import
 
-print ('###''\n''MAKE SURE TO APPEND TENSORFLOW/MODELS/RESEARCH TO YOUR PYTHON PATH''\n''###')
-
 import os
 import io
 import pandas as pd
@@ -33,7 +31,6 @@ def create_tf_example(group, path, label_map_dict):
     encoded_jpg_io = io.BytesIO(encoded_jpg)
     image = Image.open(encoded_jpg_io)
     width, height = image.size
-    print("width,height: ",width,height)
 
     filename = group.filename.encode('utf8')
     image_format = b'jpg'
@@ -51,7 +48,6 @@ def create_tf_example(group, path, label_map_dict):
         ymaxs.append(obj['ymax'] / height)
         classes_text.append(obj['class'].encode('utf8'))
         classes.append(label_map_dict[obj['class']])
-    print ("xmins,xmaxs,ymins,ymaxs,classes_text,classes: ",xmins,xmaxs,ymins,ymaxs,classes_text,classes)
     tf_example = tf.train.Example(features=tf.train.Features(feature={
         'image/height': dataset_util.int64_feature(height),
         'image/width': dataset_util.int64_feature(width),
@@ -66,7 +62,6 @@ def create_tf_example(group, path, label_map_dict):
         'image/object/class/text': dataset_util.bytes_list_feature(classes_text),
         'image/object/class/label': dataset_util.int64_list_feature(classes),
     }))
-    print ("tf_example: ",tf_example)
     return tf_example
 
 
