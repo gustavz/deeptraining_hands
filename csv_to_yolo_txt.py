@@ -61,15 +61,15 @@ def write(df, txt_path, img_path, label_map, directory):
     f.close()
    
 # create yolov config files
-def write_config(label_map, network) :   
+def write_config(label_map, network,CWD) :   
     # file containing necessary training paths
     num_classes = len(label_map)
     f = open('data/{}.data'.format(network),"w")
     f.write("classes = {}\
-            \ntrain = train.txt\
-            \nvalid = eval.txt\
-            \nnames = {}.names\
-            \nbackup = backup/".format(num_classes,network))
+            \ntrain = {}/data/train.txt\
+            \nvalid = {}/data/eval.txt\
+            \nnames = {}/data/{}.names\
+            \nbackup = {}/data/backup/".format(num_classes,CWD,CWD,CWD,network,CWD))
     f.close()
     
     # file containing all class names
@@ -84,12 +84,13 @@ def main():
     print ('###''\n''MAKE SURE TO APPEND tensorflow/models/research TO YOUR PYTHONPATH''\n''###')
     label_map = label_map_util.get_label_map_dict(os.path.join(os.getcwd(), 'data/label_map.pbtxt'))
     network = 'handsnet'
+    CWD = os.getcwd()
     
     for directory in ['train','eval']:
         
         txt_path = 'data/{}/annotations/txt'.format(directory)
         csv_path = 'data/{}_labels.csv'.format(directory)
-        img_path = 'data/{}/'.format(directory)
+        img_path = CWD + '/data/{}/'.format(directory)
         
         if not os.path.exists(txt_path):
             os.makedirs(txt_path)
@@ -97,7 +98,7 @@ def main():
         df = pd.read_table(csv_path, sep=",")
         write(df, txt_path, img_path, label_map, directory)
         print('Successfully created the {}-Yolo-txt files'.format(directory))
-    write_config(label_map,network)
+    write_config(label_map,network,CWD)
     print('Successfully created the yolo-config files')
     print('next step: manually add/copy yolo-{}.config file'.format(network))
         
