@@ -99,7 +99,6 @@ def main():
         print('Successfully created the {}-Yolo-txt files'.format(directory))
     write_config(label_map,network,CWD)
     print('Successfully created the yolo-config files')
-    print('next step: manually add/copy yolo-{}.config file'.format(network))
         
 if __name__ == '__main__':
     main()
