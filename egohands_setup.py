@@ -31,14 +31,14 @@ def save_csv(csv_path, csv_content):
 
 def get_bbox_visualize(base_path, dir):
     image_path_array = []
-    for root, dirs, filenames in os.walk(base_path + dir):
+    for root, dirs, filenames in sorted(os.walk(base_path + dir)):
         for f in filenames:
             if(f.split(".")[1] == "jpg"):
                 img_path = base_path + dir + "/" + f
                 image_path_array.append(img_path)
 
-    boxes = sio.loadmat(
-        base_path + dir + "/polygons.mat")
+    boxes = sio.loadmat(base_path + dir + "/polygons.mat")
+    print (boxes)
     # there are 100 of these per folder in the egohands dataset
     polygons = boxes["polygons"][0]
     # first = polygons[0]
@@ -110,7 +110,7 @@ def get_bbox_visualize(base_path, dir):
             cv2.imshow('Verifying annotation ', img)
             save_csv(csv_path + ".csv", csvholder)
             print("===== saving csv file for ", tail)
-        cv2.waitKey(2)  # close window when a key press is detected
+        cv2.waitKey(1000)  # close window when a key press is detected
 
 
 def create_directory(dir_path):
@@ -123,12 +123,12 @@ def create_directory(dir_path):
 def generate_label_files(image_dir):
     header = ['filename', 'width', 'height',
               'class', 'xmin', 'ymin', 'xmax', 'ymax']
-    for root, dirs, filenames in os.walk(image_dir):
+    for root, dirs, filenames in sorted(os.walk(image_dir)):
         for dir in dirs:
             csvholder = []
             csvholder.append(header)
             loop_index = 0
-            for f in os.listdir(image_dir + dir):
+            for f in sorted(os.listdir(image_dir + dir)):
                 if(f.split(".")[1] == "csv"):
                     loop_index += 1
                     #print(loop_index, f)
@@ -148,24 +148,25 @@ def split_data_test_eval_train(image_dir):
     create_directory("data")
     create_directory("data/train")
     create_directory("data/eval")
-
-    data_size = 4000
-    loop_index = 0
-    data_sampsize = int(0.1 * data_size)
-    test_samp_array = random.sample(range(data_size), k=data_sampsize)
     
-    print('data_sampsize: ',data_sampsize)
-    print('test_samp_array: ',test_samp_array)
-    return
+    loop_index = 0
+    """
+    data_size = 4000
+    data_sampsize = int(0.1 * data_size)
+    random.seed(1)
+    test_samp_array = random.sample(range(data_size), k=data_sampsize)
+    """
 
-    for root, dirs, filenames in os.walk(image_dir):
+    for root, dirs, filenames in sorted(os.walk(image_dir)):
         for dir in dirs:
-            for f in os.listdir(image_dir + dir):
+            for f in sorted(os.listdir(image_dir + dir)):
                 if(f.split(".")[1] == "jpg"):
                     loop_index += 1
-                    print(loop_index, f)
+                    #print('DEBUG: loop_index, f',loop_index, f)
+                    #print('DEBUG: f.split(".")[0]',f.split(".")[0])
 
-                    if loop_index in test_samp_array:
+                    #if loop_index in test_samp_array:
+                    if not np.mod(loop_index,10): 
                         os.rename(image_dir + dir +
                                   "/" + f, "data/eval/" + f)
                         os.rename(image_dir + dir +
@@ -197,15 +198,16 @@ def generate_csv_files(image_dir):
 def rename_files(image_dir):
     print("Renaming files")
     loop_index = 0
-    for root, dirs, filenames in os.walk(image_dir):
+    for root, dirs, filenames in sorted(os.walk(image_dir)):
         for dir in dirs:
-            for f in os.listdir(image_dir + dir):
+            for f in sorted(os.listdir(image_dir + dir)):
                 if (dir not in f):
                     if(f.split(".")[1] == "jpg"):
                         loop_index += 1
-                        os.rename(image_dir + dir +
-                                  "/" + f, image_dir + dir +
-                                  "/" + dir + "_" + f)
+                        old = image_dir + dir + "/" + f
+                        new = image_dir + dir + "/" + dir + "_" + f
+                        os.rename(old, new)
+                        print("renaming {} to {}".format(old,new))
                 else:
                     break
 
@@ -213,12 +215,9 @@ def rename_files(image_dir):
 
 
 def download_egohands_dataset(dataset_url, dataset_path):
-    print("\nTHIS CODE IS TAKEN FROM VICTOR DIBIA WHO ALSO WORKED ON THE SAME TOPIC\n\
-UNFORTUNATELY 2 MONTHS BEFORE I HAD THE IDEA ;)\n\
-BUT THIS PEACE OF CODE HERE IS PERFECT SO HANDS DOWN\n\
-ALL I DID WAS MODIFYING IT TO MY NEEDS\n\n\
-SEE HIS REPO:\n\
-https://github.com/victordibia/handtracking\n")
+    print("\nTHIS CODE IS BASED ON VICTOR DIBIAs WORK\
+          \nSEE HIS REPO:\
+          \nhttps://github.com/victordibia/handtracking\n")
 
     is_downloaded = os.path.exists(dataset_path)
     if not is_downloaded:
@@ -250,15 +249,15 @@ def final_finish():
         src_dir = cwd+'/data/{}/'.format(directory)
         drc_dir = cwd+'/data/{}/images/'.format(directory)
         create_directory(drc_dir)
-        for file in os.listdir(src_dir):
+        for file in sorted(os.listdir(src_dir)):
             if file.endswith(".jpg"):
                sh.move(src_dir+file,drc_dir+file)
 
     sh.rmtree('egohands')
     #os.remove(EGO_HANDS_FILE)
-    print('\n> creating the dataset complete\n\
-    > you can now start training\n\
-    > see howto_wiki for more information')
+    print('\n> creating the dataset complete\
+          \n> you can now start training\
+          \n> see howto_wiki for more information')
 
 EGOHANDS_DATASET_URL = "http://vision.soic.indiana.edu/egohands_files/egohands_data.zip"
 EGO_HANDS_FILE = "egohands_data.zip"

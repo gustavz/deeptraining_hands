@@ -81,7 +81,7 @@ def cleanup_structure(data_path, dataset_path, tarfile_path):
             check.append(check_equal(src_dir, drc_dir))
     if not False in check:
         sh.rmtree(dataset_path)
-        os.remove(tarfile_path)
+        #os.remove(tarfile_path)
         print('> Dataset successuflly set up!')
     else:
         print("> check manually for possible errors in created /data directory!")
