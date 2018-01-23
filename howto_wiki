@@ -6,7 +6,7 @@ protoc object_detection/protos/*.proto --python_out=.
 # From tensorflow/models/research
 export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 
-## TRAINING
+## TRAINING TENSORFLOW
 # Always reboot before new training
 # From the tensorflow/models/research directory
 # SSD
@@ -21,7 +21,7 @@ python object_detection/train.py \
     --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
 
 
-## EVALUATION
+## EVALUATION TENSORFLOW
 # From the tensorflow/models/research directory
 # SSD
 python object_detection/eval.py \
@@ -39,13 +39,18 @@ python object_detection/eval.py \
 ## TENSORBOARD
 tensorboard --logdir=/home/gustav/workspace/deeptraining_hands/model
 
-## EXPORT MODEL
+## EXPORT MODEL TENSORFLOW
 # From the tensorflow/models/research directory
 python object_detection/export_inference_graph.py \
 --input_type=image_tensor \
 --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/faster_rcnn_lowproposalhandsnet.config \
 --trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-200000 \
 --output_directory=/home/gustav/workspace/deeptraining_hands/model/frozen_model
+
+
+## TRAINING YOLO
+# from the darknet directory
+./darknet detector train /home/gustav/workspace/deeptraining_hands/data/handsnet.data /home/gustav/workspace/deeptraining_hands/model/tiny-yolo-handsnet.cfg darknet19_448.conv.23
 
 
 

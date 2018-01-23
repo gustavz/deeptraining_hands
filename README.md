@@ -11,31 +11,31 @@ xml_to_csv.py
 csv_img_to_tfrecord.py
 ```
 
-All scripts create/support following folder structure:
+All scripts create/support following folder structure to be able to support tensorflow aswell as yolo-darknet projects:
 ```
 .
 ├── data
-|   ├── train_labels.csv
-|   ├── eval_labels.csv
-|   ├── label_map.pbtxt
-|   ├── train.record
-|   ├── eval.record
-│   └── train 
-|       ├── annotations
-|           ├── mat
-|               ├──file1.mat
-|               └── ...
-|           ├── xml
-|               ├──file1.xml
-|               └── ...
-|           └── txt
-|               ├──file1.txt
-|               └── ...
-|       └── images
-|               ├──file1.jpg
-|               └── ...
-│   ├── eval
-|       └── ...
+│   ├── train_labels.csv
+│   ├── eval_labels.csv
+│   ├── label_map.pbtxt
+│   ├── train.record
+│   ├── eval.record
+│   ├── train 
+│   │   ├── annotations
+│   │   │   ├── mat
+│   │   │   │   ├──file1.mat
+│   │   │   │   └── ...
+│   │   │   └── xml
+│   │   │       ├──file1.xml
+│   │   │       └── ...
+│   │   ├── labels
+│   │   │   ├──file1.txt
+│   │   │   └── ...
+│   │   └── images
+│   │       ├──file1.jpg
+│   │       └── ...
+│   └── eval
+│       └── ...
 │   
 └── model
 ```
