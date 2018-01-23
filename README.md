@@ -5,7 +5,7 @@ Run one or several scripts to get to your desired training format. <br />
 >Note: Some of the scripts use packages provided by [tensorflow's API](https://github.com/tensorflow/models/tree/master/research/object_detection) <br />
 So make sure to include `tensorflow/models/research` to your PYTHONPATH
 
-To Set Up the Oxford- and/or Egohands Dataset simply run
+To Set Up the Oxford- and/or Egohands Dataset, run:
 ```
 egohands_setup.py
 oxfordhands_setup.py
