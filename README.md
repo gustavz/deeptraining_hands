@@ -16,8 +16,7 @@ mat_to_xml.py
 xml_to_csv.py
 csv_img_to_tfrecord.py
 ```
-<br />
-S
+
 All scripts create/support following folder structure to be able to support tensorflow aswell as yolo-darknet projects:
 ```
 .
