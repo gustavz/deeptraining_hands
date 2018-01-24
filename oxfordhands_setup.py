@@ -13,7 +13,7 @@ import shutil as sh
 def create_directory(dir_path):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
-        
+
 def download_dataset(dataset_name, dataset_url, tarfile_path):
     if not os.path.exists(tarfile_path):
         print(
@@ -30,8 +30,8 @@ def download_dataset(dataset_name, dataset_url, tarfile_path):
             tar.extractall()
             print("> Extraction complete")
             tar.close()
-            
-            
+
+
 def rename_double(path,name):
     if os.path.isfile(path+name):
         newname = 'x'+ name
@@ -40,7 +40,7 @@ def rename_double(path,name):
         rename_double(path,newname)
     else:
         return name
-    
+
 def check_equal(src_dir, drc_dir):
     src = len([name for name in os.listdir(src_dir) if os.path.isfile(name)])
     drc = len([name for name in os.listdir(drc_dir) if os.path.isfile(name)])
@@ -50,29 +50,36 @@ def check_equal(src_dir, drc_dir):
     else:
         print("> unequal directory sizes, manual check necessary!")
         return False
-            
+
+def create_label_map():
+    label_map = "data/label_map.pbtxt"
+    if not os.path.isfile(label_map):
+        f = open(label_map,"w")
+        f.write("item {\n  id: 1\n  name: 'hand'\n}")
+        f.close()
+
 def cleanup_structure(data_path, dataset_path, tarfile_path):
     check = []
     create_directory(data_path)
     print('> merge training and vildation set\
           \n  and copy all files to data/ directory')
-    
+
     for directory in ['test','validation','training']:
         for typ in ['images','annotations']:
             src_dir = dataset_path + '/{}_dataset/{}_data/{}/'.format(directory,directory,typ)
-            
+
             if directory is 'test':
                 if typ is 'annotations':
                     drc_dir = data_path+'eval/{}/mat/'.format(typ)
                 else:
                     drc_dir = data_path+'eval/{}/'.format(typ)
-            else:    
+            else:
                 if typ is 'annotations':
                     drc_dir = data_path+'train/{}/mat/'.format(typ)
                 else:
                     drc_dir = data_path+'train/{}/'.format(typ)
-                    
-            create_directory(drc_dir)    
+
+            create_directory(drc_dir)
             for file in os.listdir(src_dir):
                 if file.endswith(".jpg") or file.endswith(".mat"):
                     newfile = rename_double(drc_dir,file)
@@ -85,9 +92,9 @@ def cleanup_structure(data_path, dataset_path, tarfile_path):
         print('> Dataset successuflly set up!')
     else:
         print("> check manually for possible errors in created /data directory!")
-    
 
-            
+
+
 def main():
     CWD = os.getcwd()
     dataset_name = 'hand_dataset'
@@ -95,10 +102,11 @@ def main():
     dataset_url = 'http://www.robots.ox.ac.uk/~vgg/data/hands/downloads/hand_dataset.tar.gz'
     dataset_path = CWD+'/'+dataset_name
     data_path = CWD+'/data/'
-    
+
     download_dataset(dataset_name, dataset_url, tarfile_path)
     cleanup_structure(data_path, dataset_path, tarfile_path)
+    create_label_map()
 
-    
+
 if __name__ == '__main__':
     main()

@@ -37,8 +37,8 @@ def get_bbox_visualize(base_path, dir):
                 img_path = base_path + dir + "/" + f
                 image_path_array.append(img_path)
 
+    image_path_array.sort()
     boxes = sio.loadmat(base_path + dir + "/polygons.mat")
-    print (boxes)
     # there are 100 of these per folder in the egohands dataset
     polygons = boxes["polygons"][0]
     # first = polygons[0]
@@ -46,7 +46,6 @@ def get_bbox_visualize(base_path, dir):
     pointindex = 0
 
     for first in polygons:
-        index = 0
 
         font = cv2.FONT_HERSHEY_SIMPLEX
 
@@ -66,7 +65,7 @@ def get_bbox_visualize(base_path, dir):
         csvholder = []
         for pointlist in first:
             pst = np.empty((0, 2), int)
-            max_x = max_y = min_x = min_y = height = width = 0
+            max_x = max_y = min_x = min_y = 0
 
             findex = 0
             for point in pointlist:
@@ -110,7 +109,7 @@ def get_bbox_visualize(base_path, dir):
             cv2.imshow('Verifying annotation ', img)
             save_csv(csv_path + ".csv", csvholder)
             print("===== saving csv file for ", tail)
-        cv2.waitKey(1000)  # close window when a key press is detected
+        cv2.waitKey(1) # Change this to 1000 to see every single frame
 
 
 def create_directory(dir_path):
@@ -118,8 +117,6 @@ def create_directory(dir_path):
         os.makedirs(dir_path)
 
 # combine all individual csv files for each image into a single csv file per folder.
-
-
 def generate_label_files(image_dir):
     header = ['filename', 'width', 'height',
               'class', 'xmin', 'ymin', 'xmax', 'ymax']
@@ -207,13 +204,20 @@ def rename_files(image_dir):
                         old = image_dir + dir + "/" + f
                         new = image_dir + dir + "/" + dir + "_" + f
                         os.rename(old, new)
-                        print("renaming {} to {}".format(old,new))
                 else:
                     break
 
     generate_csv_files("egohands/_LABELLED_SAMPLES/")
 
-
+def extract_folder(dataset_path):
+    if not os.path.exists("egohands"):
+        zip_ref = zipfile.ZipFile(dataset_path, 'r')
+        print("> Extracting Dataset files")
+        zip_ref.extractall("egohands")
+        print("> Extraction complete")
+        zip_ref.close()
+        rename_files("egohands/_LABELLED_SAMPLES/")
+        
 def download_egohands_dataset(dataset_url, dataset_path):
     print("\nTHIS CODE IS BASED ON VICTOR DIBIAs WORK\
           \nSEE HIS REPO:\
@@ -226,24 +230,19 @@ def download_egohands_dataset(dataset_url, dataset_path):
         opener = urllib.request.URLopener()
         opener.retrieve(dataset_url, dataset_path)
         print("> download complete")
-        print("> run egohands_dataset_cleaner.py again")
-
+        extract_folder(dataset_path)
     else:
         print("Egohands dataset already downloaded.\nGenerating CSV files")
-
-        if not os.path.exists("egohands"):
-            zip_ref = zipfile.ZipFile(dataset_path, 'r')
-            print("> Extracting Dataset files")
-            zip_ref.extractall("egohands")
-            print("> Extraction complete")
-            zip_ref.close()
-            rename_files("egohands/_LABELLED_SAMPLES/")
-            final_finish()
+        extract_folder(dataset_path)
+        
+def create_label_map():
+    label_map = "data/label_map.pbtxt"
+    if not os.path.isfile(label_map):
+        f = open(label_map,"w")
+        f.write("item {\n  id: 1\n  name: 'hand'\n}")
+        f.close()
 
 def final_finish():
-    f = open("data/label_map.pbtxt","w")
-    f.write("item {\n  id: 1\n  name: 'hand'\n}")
-    f.close()
     cwd = os.getcwd()
     for directory in ['train','eval']:
         src_dir = cwd+'/data/{}/'.format(directory)
@@ -252,15 +251,21 @@ def final_finish():
         for file in sorted(os.listdir(src_dir)):
             if file.endswith(".jpg"):
                sh.move(src_dir+file,drc_dir+file)
-
     sh.rmtree('egohands')
     #os.remove(EGO_HANDS_FILE)
     print('\n> creating the dataset complete\
           \n> you can now start training\
           \n> see howto_wiki for more information')
-
-EGOHANDS_DATASET_URL = "http://vision.soic.indiana.edu/egohands_files/egohands_data.zip"
-EGO_HANDS_FILE = "egohands_data.zip"
-
-
-download_egohands_dataset(EGOHANDS_DATASET_URL, EGO_HANDS_FILE)
+    
+    
+def main():
+    EGOHANDS_DATASET_URL = "http://vision.soic.indiana.edu/egohands_files/egohands_data.zip"
+    EGO_HANDS_FILE = "egohands_data.zip"
+    
+    download_egohands_dataset(EGOHANDS_DATASET_URL, EGO_HANDS_FILE)
+    create_label_map()
+    final_finish()
+    
+    
+if __name__ == '__main__':
+    main()

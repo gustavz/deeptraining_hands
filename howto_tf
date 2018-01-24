@@ -48,12 +48,6 @@ python object_detection/export_inference_graph.py \
 --output_directory=/home/gustav/workspace/deeptraining_hands/model/frozen_model
 
 
-## TRAINING YOLO
-# from the darknet directory
-./darknet detector train /home/gustav/workspace/deeptraining_hands/data/handsnet.data /home/gustav/workspace/deeptraining_hands/model/tiny-yolo-handsnet.cfg darknet19_448.conv.23
-
-
-
 #### Options for the model.config file #### 
 # To check config options look at objectdetection/protos
 in train_config:

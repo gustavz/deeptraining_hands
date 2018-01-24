@@ -1,0 +1,14 @@
+# From darknet/cfg copy tiny-yolo.cfg and rename it to your needs
+# Make following changes for Training:
+# in [net]:	
+	batch=64
+	subdivisions=8
+# in [region]:
+	classes=1
+# in the last [convolutional]:
+	filters = 30
+
+# TRAINING
+# from the darknet/ directory
+./darknet detector train /home/gustav/workspace/deeptraining_hands/data/handsnet.data /home/gustav/workspace/deeptraining_hands/model/tiny-yolo-handsnet.cfg darknet19_448.conv.23
+

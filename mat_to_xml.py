@@ -160,6 +160,7 @@ def create_xml_file(hand_pos, filename,IMG_FILES_PATH, XML_FILES_PATH):
         xml_file.write(pretty_xml)
 
 
+
 def main():
     # Read a .mat file and convert it to a pascal format
     for directory in ['train','eval']:
