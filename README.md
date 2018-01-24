@@ -45,3 +45,4 @@ All scripts create/support following folder structure to be able to support tens
 │   
 └── model
 ```
+See ```howto_tf``` and ```howto_yolo``` for information how to train on yolo or tensorflow

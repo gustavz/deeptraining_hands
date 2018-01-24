@@ -120,12 +120,12 @@ def create_directory(dir_path):
 def generate_label_files(image_dir):
     header = ['filename', 'width', 'height',
               'class', 'xmin', 'ymin', 'xmax', 'ymax']
-    for root, dirs, filenames in sorted(os.walk(image_dir)):
+    for root, dirs, filenames in os.walk(image_dir):
         for dir in dirs:
             csvholder = []
             csvholder.append(header)
             loop_index = 0
-            for f in sorted(os.listdir(image_dir + dir)):
+            for f in os.listdir(image_dir + dir):
                 if(f.split(".")[1] == "csv"):
                     loop_index += 1
                     #print(loop_index, f)
@@ -154,9 +154,9 @@ def split_data_test_eval_train(image_dir):
     test_samp_array = random.sample(range(data_size), k=data_sampsize)
     """
 
-    for root, dirs, filenames in sorted(os.walk(image_dir)):
+    for root, dirs, filenames in os.walk(image_dir):
         for dir in dirs:
-            for f in sorted(os.listdir(image_dir + dir)):
+            for f in os.listdir(image_dir + dir):
                 if(f.split(".")[1] == "jpg"):
                     loop_index += 1
                     #print('DEBUG: loop_index, f',loop_index, f)
@@ -197,7 +197,7 @@ def rename_files(image_dir):
     loop_index = 0
     for root, dirs, filenames in sorted(os.walk(image_dir)):
         for dir in dirs:
-            for f in sorted(os.listdir(image_dir + dir)):
+            for f in os.listdir(image_dir + dir):
                 if (dir not in f):
                     if(f.split(".")[1] == "jpg"):
                         loop_index += 1
@@ -248,7 +248,7 @@ def final_finish():
         src_dir = cwd+'/data/{}/'.format(directory)
         drc_dir = cwd+'/data/{}/images/'.format(directory)
         create_directory(drc_dir)
-        for file in sorted(os.listdir(src_dir)):
+        for file in os.listdir(src_dir):
             if file.endswith(".jpg"):
                sh.move(src_dir+file,drc_dir+file)
     sh.rmtree('egohands')

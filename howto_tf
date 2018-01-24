@@ -9,30 +9,16 @@ export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 ## TRAINING TENSORFLOW
 # Always reboot before new training
 # From the tensorflow/models/research directory
-# SSD
 python object_detection/train.py \
     --logtostderr \
     --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet.config \
     --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
-# RCNN
-python object_detection/train.py \
-    --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/faster_rcnn_lowproposalhandsnet.config \
-    --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
-
 
 ## EVALUATION TENSORFLOW
 # From the tensorflow/models/research directory
-# SSD
 python object_detection/eval.py \
     --logtostderr \
     --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet.config \
-    --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
-    --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
-# RCNN
-python object_detection/eval.py \
-    --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/faster_rcnn_lowproposalhandsnet.config \
     --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
     --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
 
@@ -54,6 +40,7 @@ in train_config:
 batch_queue_capacity: 2 # default is 8
 prefetch_queue_capacity: 2 # default is 10
 keep_checkpoint_every_n_hours: 1
+visualization_export_dir: "model/eval/visualization"
 
 
 #### COULD BE NECESSARY IF IMPORT ERRORS OCCUR ####
