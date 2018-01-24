@@ -21,11 +21,6 @@ All scripts create/support following folder structure to be able to support tens
 ```
 .
 ├── data
-│   ├── train_labels.csv
-│   ├── eval_labels.csv
-│   ├── label_map.pbtxt
-│   ├── train.record
-│   ├── eval.record
 │   ├── train 
 │   │   ├── annotations
 │   │   │   ├── mat
@@ -40,8 +35,16 @@ All scripts create/support following folder structure to be able to support tens
 │   │   └── images
 │   │       ├──file1.jpg
 │   │       └── ...
-│   └── eval
-│       └── ...
+│   ├── eval
+│   │   └── ...
+│   │
+│   ├── train_labels.csv
+│   ├── eval_labels.csv
+│   ├── label_map.pbtxt
+│   ├── train.record
+│   ├── eval.record
+│   ├── train.txt
+│   └── eval.txt
 │   
 └── model
 ```

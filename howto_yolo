@@ -12,3 +12,8 @@
 # from the darknet/ directory
 ./darknet detector train /home/gustav/workspace/deeptraining_hands/data/handsnet.data /home/gustav/workspace/deeptraining_hands/model/tiny-yolo-handsnet.cfg darknet19_448.conv.23
 
+# To save weights every 1000 steps after the first 1000
+# change in darknet/examples/detector.c
+	if(i%10000==0 || (i < 1000 && i%100 == 0)){
+TO
+	if(i%1000==0 || (i < 1000 && i%100 == 0)){

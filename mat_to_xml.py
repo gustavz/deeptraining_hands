@@ -174,6 +174,7 @@ def main():
 
         # List all files in the MAT_FILES_PATH and ignore hidden files (.DS_STORE for Macs)
         mat_files = [[join(MAT_FILES_PATH, x), x] for x in os.listdir(MAT_FILES_PATH) if isfile(join(MAT_FILES_PATH, x)) and x[0] is not '.']
+        mat_files.sort()
         # Iterate through all files and convert them to XML
         for mat_file in mat_files:
             #print(mat_file)
