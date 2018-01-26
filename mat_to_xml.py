@@ -86,7 +86,8 @@ def read_mat_file(filepath, filename,IMG_FILES_PATH, XML_FILES_PATH):
 
     mat_data = sio.loadmat(filepath)
     hand_pos = [] # To store the hand positions in an image
-
+    old_pts = []
+    curr_pts = []
     #For all hands in the image align the bounding box to an axis
     for i in range(len(mat_data['boxes'][0])):
         xmin = float('inf')
@@ -95,7 +96,8 @@ def read_mat_file(filepath, filename,IMG_FILES_PATH, XML_FILES_PATH):
         ymax = -1
 
         for j in range(4):
-            x, y = mat_data['boxes'][0][i][0][0][j][0]
+            y, x = mat_data['boxes'][0][i][0][0][j][0]
+            curr_pts.append(make_int([x,y]))
             if xmin > x:
                 xmin = x
             if ymin > y:
@@ -104,8 +106,12 @@ def read_mat_file(filepath, filename,IMG_FILES_PATH, XML_FILES_PATH):
                 xmax = x
             if ymax < y:
                 ymax = y
-
+        old_pts.append(curr_pts)
         hand_pos.insert(0, [xmin, ymin, xmax, ymax])
+        
+    img_filename = filename.split('.')[0] + '.jpg'
+    image = IMG_FILES_PATH + '/' + img_filename
+    visualize(image,old_pts,hand_pos,filename,1)
 
     # Create the XML file
     create_xml_file(hand_pos, filename,IMG_FILES_PATH, XML_FILES_PATH)
@@ -152,13 +158,32 @@ def create_xml_file(hand_pos, filename,IMG_FILES_PATH, XML_FILES_PATH):
     rough_xml = et.tostring(root, 'utf-8')
     rough_xml = minidom.parseString(rough_xml)
     pretty_xml = rough_xml.toprettyxml()
-    #print(pretty_xml)
 
     # Save the XML file
     xml_path = join(XML_FILES_PATH, xml_filename)
     with open(xml_path, 'w') as xml_file:
         xml_file.write(pretty_xml)
-
+        
+def visualize(image,pts,boxes,filename,time):
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    img = cv2.imread(image)
+    
+    for pt in pts:
+        pt = np.array(pt)
+        cv2.polylines(img,[pt], True, (0, 0, 255), 2)
+    for box in boxes:
+        xmin, ymin, xmax, ymax = make_int(box)
+        cv2.rectangle(img, (xmin, ymin), (xmax, ymax), (0, 255, 0), 2)
+        
+    cv2.putText(img, filename, (0,20), font, 0.75, (77, 255, 9), 2)
+    cv2.imshow('label_check', img)
+    cv2.waitKey(time)
+    
+def make_int(box):
+    newbox = []
+    for pt in box:
+        newbox.append(int(pt))
+    return newbox
 
 
 def main():
@@ -175,12 +200,14 @@ def main():
         # List all files in the MAT_FILES_PATH and ignore hidden files (.DS_STORE for Macs)
         mat_files = [[join(MAT_FILES_PATH, x), x] for x in os.listdir(MAT_FILES_PATH) if isfile(join(MAT_FILES_PATH, x)) and x[0] is not '.']
         mat_files.sort()
+	
         # Iterate through all files and convert them to XML
         for mat_file in mat_files:
             #print(mat_file)
             read_mat_file(mat_file[0], mat_file[1],IMG_FILES_PATH, XML_FILES_PATH)
             #break
         print ("successfully converted {}-labels from mat to pascal-xml").format(directory)
+    cv2.destroyAllWindows()
 
 if __name__ == '__main__':
     main()

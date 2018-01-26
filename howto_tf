@@ -11,14 +11,14 @@ export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 # From the tensorflow/models/research directory
 python object_detection/train.py \
     --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet.config \
+    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet_train.config \
     --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
 
 ## EVALUATION TENSORFLOW
 # From the tensorflow/models/research directory
 python object_detection/eval.py \
     --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet.config \
+    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet_train.config \
     --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
     --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
 
@@ -29,9 +29,9 @@ tensorboard --logdir=/home/gustav/workspace/deeptraining_hands/model
 # From the tensorflow/models/research directory
 python object_detection/export_inference_graph.py \
 --input_type=image_tensor \
---pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/faster_rcnn_lowproposalhandsnet.config \
---trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-200000 \
---output_directory=/home/gustav/workspace/deeptraining_hands/model/frozen_model
+--pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet_train.config \
+--trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-149406 \
+--output_directory=/home/gustav/workspace/deeptraining_hands/model/train/frozen_model_149
 
 
 #### Options for the model.config file #### 

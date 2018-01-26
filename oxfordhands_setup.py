@@ -57,6 +57,7 @@ def create_label_map():
         f = open(label_map,"w")
         f.write("item {\n  id: 1\n  name: 'hand'\n}")
         f.close()
+    print("> created ",label_map)
 
 def cleanup_structure(data_path, dataset_path, tarfile_path):
     check = []
