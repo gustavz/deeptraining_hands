@@ -14,6 +14,13 @@ python object_detection/train.py \
     --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet_train.config \
     --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
 
+python object_detection/train.py \
+    --logtostderr \
+    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/frcnni_handsnet.config \
+    --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
+
+
+
 ## EVALUATION TENSORFLOW
 # From the tensorflow/models/research directory
 python object_detection/eval.py \
@@ -21,6 +28,14 @@ python object_detection/eval.py \
     --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet_train.config \
     --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
     --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
+
+python object_detection/eval.py \
+    --logtostderr \
+    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/frcnni_handsnet.config \
+    --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
+    --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
+
+
 
 ## TENSORBOARD
 tensorboard --logdir=/home/gustav/workspace/deeptraining_hands/model
