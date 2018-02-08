@@ -226,7 +226,7 @@ def download_egohands_dataset(dataset_url, dataset_path):
     is_downloaded = os.path.exists(dataset_path)
     if not is_downloaded:
         print(
-            "> downloading egohands dataset. This may take a while (1.3GB, say 3-5mins). Coffee break?")
+            "> downloading Egohands dataset (1.3GB)")
         opener = urllib.request.URLopener()
         opener.retrieve(dataset_url, dataset_path)
         print("> download complete")

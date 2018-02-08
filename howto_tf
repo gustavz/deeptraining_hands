@@ -19,6 +19,11 @@ python object_detection/train.py \
     --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/frcnni_handsnet.config \
     --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
 
+python object_detection/train.py \
+    --logtostderr \
+    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/yolo_darknet_tf_handsnet.config \
+    --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
+
 
 
 ## EVALUATION TENSORFLOW
@@ -35,6 +40,12 @@ python object_detection/eval.py \
     --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
     --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
 
+python object_detection/eval.py \
+    --logtostderr \
+    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/yolo_darknet_tf_handsnet.config \
+    --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
+    --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
+
 
 
 ## TENSORBOARD
@@ -44,9 +55,16 @@ tensorboard --logdir=/home/gustav/workspace/deeptraining_hands/model
 # From the tensorflow/models/research directory
 python object_detection/export_inference_graph.py \
 --input_type=image_tensor \
---pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet_train.config \
---trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-149406 \
---output_directory=/home/gustav/workspace/deeptraining_hands/model/train/frozen_model_149
+--pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/frcnni_handsnet.config \
+--trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-116233 \
+--output_directory=/home/gustav/workspace/deeptraining_hands/model/train/frcnni_handsnet_116_ss
+
+python object_detection/export_inference_graph.py \
+--input_type=image_tensor \
+--pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/yolo_darknet_tf_handsnet.config \
+--trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-200000 \
+--output_directory=/home/gustav/workspace/deeptraining_hands/model/train/yolo_darknet_tf_handsnet_200
+
 
 
 #### Options for the model.config file #### 

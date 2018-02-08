@@ -17,20 +17,22 @@ def create_directory(dir_path):
 def download_dataset(dataset_name, dataset_url, tarfile_path):
     if not os.path.exists(tarfile_path):
         print(
-            "> downloading Oxford Hand dataset (239MB)")
+            "> downloading Oxford Hand dataset (250MB)")
         opener = urllib.request.URLopener()
         opener.retrieve(dataset_url, tarfile_path)
         print("> download complete")
-        print("> run oxfordhands_dataset_cleaner.py again")
+        extract_files(dataset_name, tarfile_path)
     else:
         print("> Oxford Hand dataset already downloaded.\sttart cleaning structure")
+        extract_files(dataset_name, tarfile_path)
+            
+def extract_files(dataset_name, tarfile_path):
         if not os.path.exists(dataset_name):
             tar = tarfile.open(tarfile_path)
             print("> Extracting Dataset files")
             tar.extractall()
             print("> Extraction complete")
             tar.close()
-
 
 def rename_double(path,name):
     if os.path.isfile(path+name):
@@ -57,7 +59,7 @@ def create_label_map():
         f = open(label_map,"w")
         f.write("item {\n  id: 1\n  name: 'hand'\n}")
         f.close()
-    print("> created ",label_map)
+    print("> created {}".format(label_map))
 
 def cleanup_structure(data_path, dataset_path, tarfile_path):
     check = []
