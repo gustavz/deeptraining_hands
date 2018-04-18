@@ -61,9 +61,15 @@ python object_detection/export_inference_graph.py \
 
 python object_detection/export_inference_graph.py \
 --input_type=image_tensor \
---pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/yolo_darknet_tf_handsnet.config \
---trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-200000 \
---output_directory=/home/gustav/workspace/deeptraining_hands/model/train/yolo_darknet_tf_handsnet_200
+--pipeline_config_path=/home/gustav/workspace/test_models/ssd_handsnet600_165_s/ckpt/ssd_mobilehandsnet_train.config\
+--trained_checkpoint_prefix=/home/gustav/workspace/test_models/ssd_handsnet600_165_s/ckpt/model.ckpt\
+--output_directory=/home/gustav/workspace/test_models/ssd_handsnet600_165_s_v2
+
+python object_detection/export_inference_graph.py \
+--input_type=image_tensor \
+--pipeline_config_path=/home/gustav/workspace/trained_models/ssd_egohands_200/train/pipeline.config \
+--trained_checkpoint_prefix=/home/gustav/workspace/trained_models/ssd_egohands_200/train/model.ckpt-16999 \
+--output_directory=/home/gustav/workspace/test
 
 
 
