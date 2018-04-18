@@ -11,63 +11,35 @@ export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
 # From the tensorflow/models/research directory
 python object_detection/train.py \
     --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet_train.config \
-    --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
-
-python object_detection/train.py \
-    --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/frcnni_handsnet.config \
-    --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
-
-python object_detection/train.py \
-    --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/yolo_darknet_tf_handsnet.config \
-    --train_dir=/home/gustav/workspace/deeptraining_hands/model/train
-
-
+    --pipeline_config_path=/path/to/model.config \
+    --train_dir=/path/to/outputdirectory/train
 
 ## EVALUATION TENSORFLOW
 # From the tensorflow/models/research directory
 python object_detection/eval.py \
     --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/ssd_mobilehandsnet_train.config \
-    --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
-    --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
-
-python object_detection/eval.py \
-    --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/frcnni_handsnet.config \
-    --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
-    --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
-
-python object_detection/eval.py \
-    --logtostderr \
-    --pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/yolo_darknet_tf_handsnet.config \
-    --checkpoint_dir=/home/gustav/workspace/deeptraining_hands/model/train \
-    --eval_dir=/home/gustav/workspace/deeptraining_hands/model/eval
-
-
+    --pipeline_config_path=/path/to/model.config \
+    --checkpoint_dir=/path/to/outputdirectory/train \
+    --eval_dir=/path/to/outputdirectory/eval
 
 ## TENSORBOARD
-tensorboard --logdir=/home/gustav/workspace/deeptraining_hands/model
+tensorboard --logdir=/path/to/outputdirectory
 
 ## EXPORT MODEL TENSORFLOW
 # From the tensorflow/models/research directory
 python object_detection/export_inference_graph.py \
 --input_type=image_tensor \
---pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/frcnni_handsnet.config \
---trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-116233 \
---output_directory=/home/gustav/workspace/deeptraining_hands/model/train/frcnni_handsnet_116_ss
+--pipeline_config_path=/path/to/model.config \
+--trained_checkpoint_prefix /path/to/outputdirectory/train/model.ckpt-123 \
+--output_directory=/path/to/outputdirectory/modelname
 
-python object_detection/export_inference_graph.py \
---input_type=image_tensor \
---pipeline_config_path=/home/gustav/workspace/deeptraining_hands/model/yolo_darknet_tf_handsnet.config \
---trained_checkpoint_prefix /home/gustav/workspace/deeptraining_hands/model/train/model.ckpt-200000 \
---output_directory=/home/gustav/workspace/deeptraining_hands/model/train/yolo_darknet_tf_handsnet_200
+## GPU CPU OPTIONS
+# For Evaluation Using only CPU: In object_detection/eval.py add:
+os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
+# For Training using two GPUS: in object_detection/train.py add:
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1'
 
-
-
-#### Options for the model.config file #### 
+## CONFIG FILE OPTIONS #### 
 # To check config options look at objectdetection/protos
 in train_config:
 batch_queue_capacity: 2 # default is 8
@@ -75,6 +47,21 @@ prefetch_queue_capacity: 2 # default is 10
 keep_checkpoint_every_n_hours: 1
 visualization_export_dir: "model/eval/visualization"
 
+## TRAINING ON A LOCAL MACHINE WITH LIMITED RESOURCES ####
+# Train on a single GPU and eval on CPU, In object_detection/trainer.py 
+# add after "session_config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)" :
+session_config.gpu_options.allow_growth = True
+session_config.gpu_options.per_process_gpu_memory_fraction = 0.5 # last option
+session_config.gpu_options.allocator_type ='BFC'
+
+#### IF eval.py gets stuck ####
+#### with WARNING:root:image 0 does not have groundtruth difficult flag specified ####
+change eval_config.num_examples to the size of your val set
+or change eval_input_reader.shuffle to true.
+
+#### IF EXPORTTING A FROZEN MODEL FAILS ###
+on line 72 in exporter.py
+change "layout_optimizer=rewriter_config_pb2.RewriterConfig.ON" to "optimize_tensor_layout=True"
 
 #### COULD BE NECESSARY IF IMPORT ERRORS OCCUR ####
 #### DO THIS AS LAST OPTION, MAY CORRECT SOME ERRORS BUT LEAD TO NEW ####
@@ -85,28 +72,3 @@ python setup.py install
 
 # from tensorflow/models/research/slim
 sudo pip2 install -e .
-
-
-#### IF TRAINING ON A LOCAL MACHINE WITH LIMITED RESOURCES ####
-
-Train on a single GPU and eval on CPU, In object_detection/trainer.py 
-add after "session_config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=False)" :
-
-session_config.gpu_options.allow_growth = True
-session_config.gpu_options.per_process_gpu_memory_fraction = 0.9
-session_config.gpu_options.allocator_type ='BFC'
-
-For Evaluation Using only CPU: In object_detection/eval.py add behind "FLAGS = flags.FLAG" :
-
-os.environ['CUDA_VISIBLE_DEVICES'] = '-1'
-
-#### IF eval.py gets stuck ####
-#### with WARNING:root:image 0 does not have groundtruth difficult flag specified ####
-
-change eval_config.num_examples to the size of your val set
-or change eval_input_reader.shuffle to true.
-
-
-#### IF EXPORTTING A FROZEN MODEL FAILS ###
-on line 72 in exporter.py
-change "layout_optimizer=rewriter_config_pb2.RewriterConfig.ON" to "optimize_tensor_layout=True"
